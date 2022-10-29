@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>书籍</title>
+    <script src="../js/vue.js"></script>
+    <script src="../element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+    <script src="../js/axios-0.18.0.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="hold-transition">
+
+<div id="app">
+
+    <div class="content-header">
+
+        <h1>书籍管理</h1>
+
+    </div>
+
+    <div class="app-container">
+
+        <div class="box">
+            <!--头部-->
+            <div class="filter-container">
+                <el-select placeholder="书籍类别" v-model="pagination.bookType" style="width: 200px;" class="filter-item">
+                    <el-option v-for="item in bookTypes"  :value="item"></el-option>
+                </el-select>
+                <el-input placeholder="书籍名称" v-model="pagination.bookName" style="width: 200px;" class="filter-item"></el-input>
+                <el-input placeholder="描述" v-model="pagination.description" style="width: 200px;" class="filter-item"></el-input>
+                <el-button @click="getAllBookByCondition" class="dalfBut">查询</el-button>
+                <el-button type="primary" class="butT" @click="handleCreate">新建</el-button>
+                <el-button type="danger" class="butT" @click="handleDeletes">批量删除</el-button>
+            </div>
+            <!--列表-->
+            <el-table ref="BookTable" size="small" current-row-key="bookId" :data="books" stripe highlight-current-row ref="multipleTable" @selection-change="handleSelectionChange">
+                <el-table-column type="selection" width="55"></el-table-column>
+                <el-table-column type="index" align="center" label="序号" ></el-table-column>
+                <el-table-column prop="bookType" label="书籍类别" align="center"></el-table-column>
+                <el-table-column prop="bookName" label="书籍名称" align="center"></el-table-column>
+                <el-table-column prop="description" label="描述" align="center"></el-table-column>
+                <el-table-column label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                        <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <!--分页组件-->
+            <div class="pagination-container">
+                <el-button @click="toggleSelection(books)">全选</el-button>
+                <el-button @click="toggleSelection()">取消选择</el-button>
+                <el-pagination
+                        class="pagiantion"
+                        @current-change="handleCurrentChange"
+                        :current-page="pagination.currentPage"
+                        :page-size="pagination.pageSize"
+                        layout="total, prev, pager, next, jumper"
+                        :total="pagination.total">
+                </el-pagination>
+            </div>
+            <!-- 新增标签弹层 -->
+            <div class="add-form">
+                <el-dialog title="新增书籍" :visible.sync="dialogInsertVisible">
+                    <el-form ref="dataAddForm" :model="book"  label-position="right" :rules="rules" label-width="100px">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="书籍类别" prop="bookType">
+                                    <el-select placeholder="书籍类别" v-model="book.bookType" style="width: 200px;" class="filter-item">
+                                        <el-option v-for="item in bookTypes"  :value="item"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="书籍名称" prop="bookName">
+                                    <el-input v-model="book.bookName"/>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="描述" prop="description">
+                                    <el-input v-model="book.description"/>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="cancel()">取消</el-button>
+                        <el-button type="primary" @click="addBook" :disabled="buttonStatus">确定</el-button>
+                    </div>
+                </el-dialog>
+            </div>
+            <!-- 编辑标签弹层 -->
+            <div class="add-form">
+                <el-dialog title="编辑检查项" :visible.sync="dialogUpdateVisible">
+                    <el-form ref="dataEditForm" :model="book" :rules="rules" label-position="right" label-width="100px">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="书籍类别" prop="bookType">
+<!--                                    <el-input v-model="book.bookType"/>-->
+                                    <el-select placeholder="书籍类别" v-model="book.bookType" style="width: 200px;" class="filter-item">
+                                        <el-option v-for="item in bookTypes"  :value="item"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="书籍名称" prop="bookName">
+                                    <el-input  v-model="book.bookName"/>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="描述" prop="description">
+                                    <el-input type="textarea" v-model="book.description"/>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="cancel()">取消</el-button>
+                        <el-button type="primary" @click="handleEdit()" :disabled="buttonStatus">确定</el-button>
+                    </div>
+                </el-dialog>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+
+    axios.defaults.baseURL = 'http://localhost:8050'
+    new Vue({
+        el:"#app",
+        data(){
+            let checkBookName=(rule,value, callback)=>{
+              if (!value){
+                  return callback(new Error('书籍名称不能为空！'));
+              }
+              setTimeout(()=>{
+                axios({
+                    method: "post",
+                    url: "Http://localhost:8050/books/checkBookName",
+                    data:{bookName:""+this.book.bookName}
+                }).then(res=>{
+                    if (res.data.flag){
+                        callback(new Error(res.data.msg))
+                        this.buttonStatus=true;
+                    }else {
+                        callback(res.data.msg);
+                        this.buttonStatus=false;
+                    }
+                })
+              },1000);
+            };
+            return{
+                books:[],
+                bookTypes:{},
+                book:{
+                    bookType:"",
+                    bookName:"",
+                    description:""
+                },
+                dialogInsertVisible: false,
+                dialogUpdateVisible: false,
+                selectedBookIds:[],
+                multipleSelection: [],
+                pagination: {//分页相关模型数据
+                    currentPage: 1,//当前页码
+                    pageSize:10,//每页显示的记录数
+                    total:0,//总记录数
+                    bookName: "",
+                    bookType: "",
+                    description:"",
+                },
+                buttonStatus:true,
+                rules:{
+                    bookName:[
+                        {required:true, validator: checkBookName,trigger:"blur"}
+                    ]
+                }
+
+            }
+        },
+        mounted(){
+          this.getAllBookByCondition();
+          this.getAllTypes();
+        },
+        methods:{
+            getAllTypes(){
+                axios.get("/types").then(res=>{
+
+                    for (let i = 0; i < res.data.data.length; i++) {
+                        this.bookTypes[i]=res.data.data[i].typeName;
+                    }
+                })
+            },
+            toggleSelection(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.BookTable.toggleRowSelection(row);
+                    });
+                } else {
+                        this.$refs.BookTable.clearSelection();
+                }
+
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            //切换页码
+            handleCurrentChange(currentPage) {
+                //修改页码值为当前选中的页码值
+                this.pagination.currentPage = currentPage;
+                //执行查询
+                this.getAllBookByCondition();
+            },
+            //取消
+            cancel(){
+                this.dialogInsertVisible = false,
+                this.dialogUpdateVisible = false,
+                this.$message.info("当前操作取消");
+            },
+            getAllBookByCondition() {
+                //组织参数，拼接url请求地址
+
+                let param ="?bookType="+this.pagination.bookType;
+                param +="&bookName="+this.pagination.bookName;
+                param +="&description="+this.pagination.description;
+
+
+                //发送异步请求
+                axios.get("/books/"+this.pagination.currentPage+"/"+this.pagination.pageSize+param).then((res)=>{
+                    this.pagination.pageSize = res.data.data.size;
+                    this.pagination.currentPage = res.data.data.current;
+                    this.pagination.total = res.data.data.total;
+
+                    this.books = res.data.data.records;
+                });
+
+            },
+            //弹出添加窗口
+            handleCreate() {
+                this.dialogInsertVisible = true;
+                this.resetForm();
+            },
+
+            //重置表单
+            resetForm() {
+                this.book = {};
+            },
+            //添加
+            addBook(){
+                axios({
+                    method:"post",
+                    headers: {'Content-Type': 'application/json'},
+                    url:"http://localhost:8050/books",
+                    data:this.book
+                }).then(res=> {
+                    if(res.data.flag){
+                        //1.关闭弹层
+                        console.log(this.book)
+                        this.dialogInsertVisible = false;
+                        this.$message.success(res.data.msg);
+                    }else{
+                        this.$message.error(res.data.msg);
+                    }
+                }).finally(()=>{
+                    //2.重新加载数据
+                    this.getAllBookByCondition();
+                });
+            },
+            //弹出编辑窗口
+            handleUpdate(row) {
+                axios({
+                    method: "get",
+                    url: "http://localhost:8050/books/"+row.bookId,
+                }).then(res=>{
+                    if(res.data.flag && res.data.data != null ){
+                        this.dialogUpdateVisible = true;
+                        this.book = res.data.data;
+                        console.log(this.book)
+                    }else{
+                        this.$message.error("数据同步失败，自动刷新");
+                    }
+                })
+            },
+
+            //修改
+            handleEdit() {
+                axios({
+                    method:"put",
+                    headers: {'Content-Type': 'application/json'},
+                    url:"http://localhost:8050/books",
+                    data:this.book
+                }).then(res=> {
+                    if(res.data.flag){
+                        //1.关闭弹层
+                        this.dialogUpdateVisible = false;
+                        this.$message.success(res.data.msg);
+                    }else{
+                        this.$message.error(res.data.msg);
+                    }
+                }).finally(()=>{
+                    //2.重新加载数据
+                    this.getAllBookByCondition();
+                });
+            },
+            // 删除
+            handleDelete(row) {
+                // console.log(row);
+                this.$confirm("此操作永久删除当前信息，是否继续？","提示",{type:"info"}).then(()=>{
+                    axios.delete("/books/"+row.bookId).then((res)=>{
+                        if(res.data.flag){
+                            this.$message.success(res.data.msg);
+                        }else{
+                            this.$message.error(res.data.msg);
+                        }
+                    }).finally(()=>{
+                        //2.重新加载数据
+                        this.getAllBookByCondition();
+                    });
+                }).catch(()=>{
+                    this.$message.info("取消操作");
+                });
+            },
+            handleDeletes() {
+                // console.log(row);
+                for (let i = 0; i < this.multipleSelection.length; i++) {
+                    let selectionElement = this.multipleSelection[i];
+                    this.selectedBookIds[i] = selectionElement.bookId;
+                }
+                console.log(this.selectedBookIds)
+                this.$confirm("此操作永久删除当前信息，是否继续？","提示",{type:"info"}).then(()=>{
+                    axios.delete("/books/deleteBooks/"+this.selectedBookIds).then((res)=>{
+                        if(res.data.flag){
+                            this.$message.success(res.data.msg);
+                        }else{
+                            this.$message.error(res.data.msg);
+                        }
+                    }).finally(()=>{
+                        //2.重新加载数据
+                        this.getAllBookByCondition();
+                    });
+                }).catch(()=>{
+                    this.$message.info("取消操作");
+                });
+            },
+        }
+    })
+</script>
+</html>

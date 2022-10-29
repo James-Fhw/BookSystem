@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <script src="../js/vue.js"></script>
+    <script src="../element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+    <script src="../js/axios-0.18.0.js"></script>
+    <link rel="stylesheet" href="../css/register.css">
+</head>
+<body>
+<div id="app">
+    <div class="center">
+        <h1>注册</h1>
+        <div class="registerDiv">
+            <el-form ref="registerForm" :model="register" :rules="rules" label-width="80px">
+                <el-form-item  label="姓名：" >
+                    <el-input  v-model="register.userName" ></el-input>
+                </el-form-item>
+                <el-form-item label="性别：" >
+                    <el-radio v-model="register.userGender" label="男">男</el-radio>
+                    <el-radio v-model="register.userGender" label="女">女</el-radio>
+                </el-form-item>
+                <el-form-item label="年龄：" >
+                    <el-input v-model="register.userAge" ></el-input>
+                </el-form-item>
+                <el-form-item label="电话：" prop="userPhone">
+                    <el-input v-model.number="register.userPhone" ></el-input>
+                </el-form-item>
+                <el-form-item label="密码：" >
+                    <el-input v-model="register.userPassword" ></el-input>
+                </el-form-item>
+                <el-form-item align="center">
+                    <el-button type="primary" @click="Register">提交</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </div>
+</div>
+<script>
+    new Vue({
+        el:"#app",
+        data(){
+            let checkPhone=(rule, value, callback)=>{
+                if(!value){
+                    return callback(new Error('电话不能为空！'));
+                }
+                setTimeout(()=>{
+                    if (!Number.isInteger(value)){
+                        callback(new Error('请输入数字！'))
+                    }else{
+                        axios({
+                            method: "post",
+                            url: "Http://localhost/users/checkUserPhone",
+                            data:{userPhone:""+this.register.userPhone}
+                        }).then(res=>{
+                            if(res.data.flag){
+                                callback(new Error(res.data.msg))
+                            }else{
+                                callback();
+                            }
+                        })
+                    }
+                },1000);
+            };
+            return{
+                register:{
+                    userName:"",
+                    userGender:"男",
+                    userAge:"",
+                    userPhone:"",
+                    userPassword:"",
+                },
+                rules:{
+                    userPhone:[
+                        {validator: checkPhone,trigger:"blur"}
+                    ]
+                }
+            }
+        },
+        methods:{
+            Register(){
+                axios({
+                    method:"post",
+                    headers: {'Content-Type': 'application/json'},
+                    url:"http://localhost/users/register",
+                    data:this.register
+                }).then(res=> {
+                    if(res.data.flag){
+                        this.$message.success(res.data.msg);
+                        setTimeout("location.href =\'book.html\'",3000)
+                    }else{
+                        this.$message.error(res.data.msg);
+                    }
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

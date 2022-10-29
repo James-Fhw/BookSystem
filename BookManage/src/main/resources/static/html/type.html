@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>类别</title>
+    <script src="../js/vue.js"></script>
+    <script src="../element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+    <script src="../js/axios-0.18.0.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="hold-transition">
+
+<div id="app">
+
+    <div class="content-header">
+
+        <h1>类别管理</h1>
+
+    </div>
+
+    <div class="app-container">
+
+        <div class="box">
+
+            <div class="filter-container">
+
+                <el-input placeholder="类别名称" v-model="pagination.typeName" style="width: 200px;" class="filter-item"></el-input>
+                <el-button @click="getAllTypeByCondition" class="dalfBut">查询</el-button>
+                <el-button type="primary" class="butT" @click="handleCreate">新建</el-button>
+                <el-button type="danger" class="butT" @click="handleDeletes">批量删除</el-button>
+            </div>
+            <!--<div style="margin-top: 20px">
+
+            </div>-->
+
+            <el-table ref="TypeTable" size="small" current-row-key="typeId" :data="types" stripe highlight-current-row ref="multipleTable" @selection-change="handleSelectionChange">
+                <el-table-column type="selection" width="55"></el-table-column>
+                <el-table-column type="index" align="center" label="序号" ></el-table-column>
+                <el-table-column prop="typeName" label="类别名称" align="center"></el-table-column>
+                <el-table-column label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                        <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+
+
+            <!--分页组件-->
+            <div class="pagination-container">
+                <el-button @click="toggleSelection(types)">全选</el-button>
+                <el-button @click="toggleSelection()">取消选择</el-button>
+                <el-pagination
+                        class="pagiantion"
+                        @current-change="handleCurrentChange"
+                        :current-page="pagination.currentPage"
+                        :page-size="pagination.pageSize"
+                        layout="total, prev, pager, next, jumper"
+                        :total="pagination.total">
+                </el-pagination>
+            </div>
+            <!-- 新增标签弹层 -->
+            <div class="add-form">
+                <el-dialog title="新增类别" :visible.sync="dialogInsertVisible">
+                    <el-form ref="dataAddForm" :model="type"  label-position="right" label-width="100px">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="类别名称" prop="typeName">
+                                    <el-input v-model="type.typeName"/>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="cancel()">取消</el-button>
+                        <el-button type="primary" @click="addType">确定</el-button>
+                    </div>
+                </el-dialog>
+            </div>
+
+            <!-- 编辑标签弹层 -->
+            <div class="add-form">
+                <el-dialog title="编辑检查项" :visible.sync="dialogUpdateVisible">
+                    <el-form ref="dataEditForm" :model="type" :rules="rules" label-position="right" label-width="100px">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="类别名称" prop="typeName">
+                                    <el-input v-model="type.typeName"/>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="cancel()">取消</el-button>
+                        <el-button type="primary" @click="handleEdit()">确定</el-button>
+                    </div>
+                </el-dialog>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+
+    new Vue({
+        el:"#app",
+        data(){
+            return{
+                types:[],
+                type:{
+                    typeName:""
+                },
+                dialogInsertVisible: false,
+                dialogUpdateVisible: false,
+                selectedTypeIds:[],
+                multipleSelection: [],
+                pagination: {//分页相关模型数据
+                    currentPage: 1,//当前页码
+                    pageSize:10,//每页显示的记录数
+                    total:0,//总记录数
+                    typeName: ""
+                },
+
+            }
+        },
+        mounted(){
+          this.getAllTypeByCondition();
+        },
+        methods:{
+            toggleSelection(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.TypeTable.toggleRowSelection(row);
+                    });
+                } else {
+                        this.$refs.TypeTable.clearSelection();
+                }
+
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            //切换页码
+            handleCurrentChange(currentPage) {
+                //修改页码值为当前选中的页码值
+                this.pagination.currentPage = currentPage;
+                //执行查询
+                this.getAllTypeByCondition();
+            },
+            //取消
+            cancel(){
+                this.dialogInsertVisible = false,
+                this.dialogUpdateVisible = false,
+                this.$message.info("当前操作取消");
+            },
+            getAllTypeByCondition() {
+                //组织参数，拼接url请求地址
+                let param = "?typeName=" + this.pagination.typeName;
+
+                //发送异步请求
+                axios.get("/types/"+this.pagination.currentPage+"/"+this.pagination.pageSize+param).then((res)=>{
+                    this.pagination.pageSize = res.data.data.size;
+                    this.pagination.currentPage = res.data.data.current;
+                    this.pagination.total = res.data.data.total;
+
+                    this.types = res.data.data.records;
+                });
+            },
+            //弹出添加窗口
+            handleCreate() {
+                this.dialogInsertVisible = true;
+                this.resetForm();
+            },
+
+            //重置表单
+            resetForm() {
+                this.type = {};
+            },
+            //添加
+            addType(){
+                axios({
+                    method:"post",
+                    headers: {'Content-Type': 'application/json'},
+                    url:"http://localhost:8050/types",
+                    data:this.type
+                }).then(res=> {
+                    if(res.data.flag){
+                        //1.关闭弹层
+                        this.dialogInsertVisible = false;
+                        this.$message.success(res.data.msg);
+                    }else{
+                        this.$message.error(res.data.msg);
+                    }
+                }).finally(()=>{
+                    //2.重新加载数据
+                    this.getAllTypeByCondition();
+                });
+            },
+            //弹出编辑窗口
+            handleUpdate(row) {
+                axios({
+                    method: "get",
+                    url: "http://localhost:8050/types/"+row.typeId,
+                }).then(res=>{
+                    if(res.data.flag && res.data.data != null ){
+                        this.dialogUpdateVisible = true;
+                        this.type = res.data.data;
+                        console.log(this.type)
+                    }else{
+                        this.$message.error("数据同步失败，自动刷新");
+                    }
+                })
+            },
+
+            //修改
+            handleEdit() {
+                axios({
+                    method:"put",
+                    headers: {'Content-Type': 'application/json'},
+                    url:"http://localhost:8050/types",
+                    data:this.type
+                }).then(res=> {
+                    if(res.data.flag){
+                        //1.关闭弹层
+                        this.dialogUpdateVisible = false;
+                        this.$message.success(res.data.msg);
+                    }else{
+                        this.$message.error(res.data.msg);
+                    }
+                }).finally(()=>{
+                    //2.重新加载数据
+                    this.getAllTypeByCondition();
+                });
+            },
+            // 删除
+            handleDelete(row) {
+                // console.log(row);
+                this.$confirm("此操作永久删除当前信息，是否继续？","提示",{type:"info"}).then(()=>{
+                    axios.delete("/types/"+row.typeId).then((res)=>{
+                        if(res.data.flag){
+                            this.$message.success(res.data.msg);
+                        }else{
+                            this.$message.error(res.data.msg);
+                        }
+                    }).finally(()=>{
+                        //2.重新加载数据
+                        this.getAllTypeByCondition();
+                    });
+                }).catch(()=>{
+                    this.$message.info("取消操作");
+                });
+            },
+            handleDeletes() {
+                // console.log(row);
+                for (let i = 0; i < this.multipleSelection.length; i++) {
+                    let selectionElement = this.multipleSelection[i];
+                    this.selectedTypeIds[i] = selectionElement.typeId;
+                }
+                console.log(this.selectedTypeIds)
+                this.$confirm("此操作永久删除当前信息，是否继续？","提示",{type:"info"}).then(()=>{
+                    axios.delete("/types/deleteTypes/"+this.selectedTypeIds).then((res)=>{
+                        if(res.data.flag){
+                            this.$message.success(res.data.msg);
+                        }else{
+                            this.$message.error(res.data.msg);
+                        }
+                    }).finally(()=>{
+                        //2.重新加载数据
+                        this.getAllTypeByCondition();
+                    });
+                }).catch(()=>{
+                    this.$message.info("取消操作");
+                });
+            },
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,39 @@
+server:
+  port: 8050
+
+spring:
+  main:
+    banner-mode: off
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/booklibrary?serverTimezone=UTC&useSSL=false
+    username: root
+    password: 123456
+
+  rabbitmq:
+    host: 192.168.182.25
+    port: 5672
+    username: fhw
+    password: 123456
+    virtual-host: /fhw
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      column-underline: true
+
+  elasticsearch:
+    rest:
+      uris: http://192.168.182.25:9200
+
+logging:
+  logback:
+    rollingpolicy:
+      file-name-pattern: D:\IDEA\IDEAworkspace\BookSystem\BookManage\src\main\resources/log/book.%d{yyyy-MM-dd}.%i.log
+      max-file-size: 10MB
+  file:
+    path: D:\IDEA\IDEAworkspace\BookSystem\BookManage\src\main\resources/log/

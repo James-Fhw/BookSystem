@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b18a78c2-12ab-4c3b-9e89-e89f7a28d71f" name="Changes" comment="first-commit" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\SoftWare\apache-maven-3.8.3\mvn_resp" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../SoftWare/apache-maven-3.8.3" />
+        <option name="outputLevel" value="DEBUG" />
+        <option name="userSettingsFile" value="D:\SoftWare\apache-maven-3.8.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="vmOptionsForImporter" value="-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="1.8" />
+    <option name="skipTests" value="true" />
+    <option name="vmOptions" value="-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true -DarchetypeCatalog=internal" />
+  </component>
+  <component name="ProjectId" id="265KRs2yF6aYNDBdP76KPrqWGwv" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.obroom.plugin.mybatislog.indexNum" value="27" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/BookManage/src/test/java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\IDEA\IDEAworkspace\BookSystem\BookShop\src\main\resources" />
+      <recent name="D:\IDEA\IDEAworkspace\BookSystem\BookShop\src\main\java\com\fhw\pojo" />
+      <recent name="D:\IDEA\IDEAworkspace\BookSystem\BookManage\src\main\resources" />
+      <recent name="D:\IDEA\IDEAworkspace\BookSystem\ConfigAndUtils\src\main\java\com\fhw" />
+      <recent name="D:\IDEA\IDEAworkspace\BookSystem\BookManager\src\main\java" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.fhw.pojo" />
+      <recent name="com.fhw.controller" />
+      <recent name="com.fhw.Service.Impl" />
+      <recent name="com.fhw.mapper" />
+      <recent name="com.fhw.Service" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.BookManageApplication">
+    <configuration name="tets.begin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BookManage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fhw.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.fhw" />
+      <option name="MAIN_CLASS_NAME" value="com.fhw.tets" />
+      <option name="METHOD_NAME" value="begin" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tets.search" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BookManage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fhw.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.fhw" />
+      <option name="MAIN_CLASS_NAME" value="com.fhw.tets" />
+      <option name="METHOD_NAME" value="search" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tets.testBulkRequest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BookManage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fhw.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.fhw" />
+      <option name="MAIN_CLASS_NAME" value="com.fhw.tets" />
+      <option name="METHOD_NAME" value="testBulkRequest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookManageApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="BookManage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fhw.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fhw.BookManageApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookShopApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="BookShop" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fhw.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fhw.BookShopApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.BookManageApplication" />
+        <item itemvalue="JUnit.tets.search" />
+        <item itemvalue="Spring Boot.BookShopApplication" />
+        <item itemvalue="JUnit.tets.testBulkRequest" />
+        <item itemvalue="JUnit.tets.begin" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b18a78c2-12ab-4c3b-9e89-e89f7a28d71f" name="Changes" comment="" />
+      <created>1646708002973</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1646708002973</updated>
+      <workItem from="1646708004438" duration="1040000" />
+      <workItem from="1646712033932" duration="3419000" />
+      <workItem from="1646717592308" duration="17963000" />
+      <workItem from="1646813751598" duration="8518000" />
+      <workItem from="1646825174475" duration="15672000" />
+      <workItem from="1646887974945" duration="694000" />
+      <workItem from="1646900505152" duration="2951000" />
+      <workItem from="1646904675166" duration="2424000" />
+      <workItem from="1646907649378" duration="4736000" />
+      <workItem from="1646916406492" duration="347000" />
+      <workItem from="1647308057760" duration="33000" />
+      <workItem from="1667024711758" duration="854000" />
+      <workItem from="1667026484171" duration="328000" />
+      <workItem from="1667027417056" duration="19000" />
+      <workItem from="1667027462620" duration="17000" />
+    </task>
+    <task id="LOCAL-00001" summary="fist-commit">
+      <created>1667025434824</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1667025434824</updated>
+    </task>
+    <task id="LOCAL-00002" summary="first-commit">
+      <created>1667026364609</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1667026364609</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <MESSAGE value="fist-commit" />
+    <MESSAGE value="first-commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="first-commit" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.io.IOException" package="java.io" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
